@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BGP Advanced Features - Presentation</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="presentation-container">
+        <!-- Slide 1: Title Slide -->
+        <!-- <div class="slide active" data-slide="1"> -->
+            <div class="slide-content title-slide">
+                <h1 style="color: white;">BGP Advanced Features</h1>
+                <h2 style="color: white;">Communities &amp; Path Attributes</h2>
+                <h3 style="color: white;">Instructor Guide for Network Engineers</h3>
+                <div class="logo">🌐</div>
+            </div>
+        </div>
+
+        <!-- Slide 2: BGP Community Attribute -->
+        <div class="slide" data-slide="2">
+            <div class="slide-content">
+                <h2>BGP Community Attribute</h2>
+                <div class="content-grid">
+                    <div class="content-left">
+                        <div class="info-box">
+                            <h3>What is BGP Community?</h3>
+                            <p>A way to group destinations and apply routing policies</p>
+                        </div>
+                        <div class="info-box">
+                            <h3>Attribute Type</h3>
+                            <p><strong>Optional Transitive</strong></p>
+                            <p class="small-text">Passed to other AS even if not recognized</p>
+                        </div>
+                        <div class="info-box">
+                            <h3>Community Types</h3>
+                            <ul>
+                                <li><strong>Standard Community:</strong> 32-bit (AS:Value)<br><span class="example">Example: 65000:100</span></li>
+                                <li><strong>Extended Community:</strong> 64-bit for MPLS VPNs<br><span class="example">Type:Administrator:Value</span></li>
+                                <li><strong>Large Community:</strong> 96-bit for 4-byte ASNs<br><span class="example">AS:Function:Parameter</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="content-right">
+                        <div class="info-box highlight">
+                            <h3>Well-Known Communities</h3>
+                            <div class="community-list">
+                                <div class="community-item">
+                                    <strong>NO_EXPORT</strong>
+                                    <span>65535:65281</span>
+                                    <p>Do not advertise to eBGP peers</p>
+                                </div>
+                                <div class="community-item">
+                                    <strong>NO_ADVERTISE</strong>
+                                    <span>65535:65282</span>
+                                    <p>Do not advertise to any peer</p>
+                                </div>
+                                <div class="community-item">
+                                    <strong>INTERNET</strong>
+                                    <span>0:0</span>
+                                    <p>Default community (all routes)</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 3: BGP Attribute Categories -->
+        <div class="slide" data-slide="3">
+            <div class="slide-content">
+                <h2>BGP Path Attribute Categories</h2>
+                <div class="attribute-table">
+                    <div class="attr-row header-row">
+                        <div class="attr-cell">Category</div>
+                        <div class="attr-cell">Recognition</div>
+                        <div class="attr-cell">Propagation</div>
+                        <div class="attr-cell">Examples</div>
+                    </div>
+                    <div class="attr-row well-known-mandatory">
+                        <div class="attr-cell"><strong>Well-Known<br>Mandatory</strong></div>
+                        <div class="attr-cell">Must be recognized by all BGP routers</div>
+                        <div class="attr-cell">Present in all BGP updates</div>
+                        <div class="attr-cell">
+                            <ul>
+                                <li>AS_PATH</li>
+                                <li>NEXT_HOP</li>
+                                <li>ORIGIN</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="attr-row well-known-discretionary">
+                        <div class="attr-cell"><strong>Well-Known<br>Discretionary</strong></div>
+                        <div class="attr-cell">Recognized by all BGP routers</div>
+                        <div class="attr-cell">Optional in updates</div>
+                        <div class="attr-cell">
+                            <ul>
+                                <li>LOCAL_PREF</li>
+                                <li>ATOMIC_AGGREGATE</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="attr-row optional-transitive">
+                        <div class="attr-cell"><strong>Optional<br>Transitive</strong></div>
+                        <div class="attr-cell">May not be recognized</div>
+                        <div class="attr-cell">Passed to other peers</div>
+                        <div class="attr-cell">
+                            <ul>
+                                <li>COMMUNITY</li>
+                                <li>AGGREGATOR</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="attr-row optional-nontransitive">
+                        <div class="attr-cell"><strong>Optional<br>Non-Transitive</strong></div>
+                        <div class="attr-cell">May not be recognized</div>
+                        <div class="attr-cell">NOT passed to peers</div>
+                        <div class="attr-cell">
+                            <ul>
+                                <li>MED</li>
+                                <li>ORIGINATOR_ID</li>
+                                <li>CLUSTER_LIST</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4: BGP Weight -->
+        <div class="slide" data-slide="4">
+            <div class="slide-content">
+                <h2>BGP Weight Attribute (Cisco Proprietary)</h2>
+                <div class="content-grid">
+                    <div class="content-left">
+                        <div class="info-box">
+                            <h3>Key Features</h3>
+                            <ul class="feature-list">
+                                <li>🔒 <strong>Cisco Proprietary</strong></li>
+                                <li>📍 <strong>Local to router only</strong></li>
+                                <li>🚫 <strong>NOT advertised</strong> to neighbors</li>
+                                <li>📊 <strong>Range:</strong> 0-65535</li>
+                                <li>⬆️ <strong>Higher = More preferred</strong></li>
+                                <li>🎯 <strong>Default:</strong> 0 (learned routes)</li>
+                                <li>🎯 <strong>Default:</strong> 32768 (local routes)</li>
+                            </ul>
+                        </div>
+                        <div class="info-box highlight">
+                            <h3>Use Case</h3>
+                            <p><strong>Influence outbound traffic</strong></p>
+                            <p>Control which path the router prefers for leaving the local AS</p>
+                        </div>
+                    </div>
+                    <div class="content-right">
+                        <div class="network-diagram">
+                            <h3>Network Topology</h3>
+                            <div class="diagram-weight">
+                                <div class="router main-router">R1</div>
+                                <div class="isp isp-a">
+                                    <div class="router">ISP-A</div>
+                                    <div class="weight-label high">Weight 200</div>
+                                </div>
+                                <div class="isp isp-b">
+                                    <div class="router">ISP-B</div>
+                                    <div class="weight-label low">Weight 100</div>
+                                </div>
+                                <div class="arrow arrow-a">↑</div>
+                                <div class="arrow arrow-b">↓</div>
+                                <div class="preferred-label">✓ Preferred Path</div>
+                            </div>
+                            <div class="diagram-note">
+                                <p><strong>Result:</strong> R1 prefers ISP-A for outbound traffic (higher weight)</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 5: BGP Local Preference -->
+        <div class="slide" data-slide="5">
+            <div class="slide-content">
+                <h2>BGP Local Preference</h2>
+                <div class="content-grid">
+                    <div class="content-left">
+                        <div class="info-box">
+                            <h3>Key Features</h3>
+                            <ul class="feature-list">
+                                <li>✅ <strong>Well-Known Discretionary</strong></li>
+                                <li>🔄 <strong>Exchanged within AS</strong> (iBGP only)</li>
+                                <li>🚫 <strong>NOT sent to eBGP</strong> peers</li>
+                                <li>📊 <strong>Range:</strong> 0-4,294,967,295</li>
+                                <li>⬆️ <strong>Higher = More preferred</strong></li>
+                                <li>🎯 <strong>Default:</strong> 100</li>
+                            </ul>
+                        </div>
+                        <div class="info-box highlight">
+                            <h3>Use Case</h3>
+                            <p><strong>AS-wide outbound traffic control</strong></p>
+                            <p>All routers in the AS agree on the preferred exit point</p>
+                        </div>
+                    </div>
+                    <div class="content-right">
+                        <div class="network-diagram">
+                            <h3>Network Topology</h3>
+                            <img src="https://pplx-res.cloudinary.com/image/upload/v1761484638/pplx_project_search_images/50ca590fec16d0b2846b4c28c2b3107492de8cd3.png" alt="BGP Local Preference Topology" class="topology-image">
+                            <div class="diagram-note">
+                                <p><strong>Scenario:</strong> AS 100 with multiple routers connected via iBGP</p>
+                                <p><strong>Result:</strong> All routers prefer the exit point with LOCAL_PREF = 200</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 6: BGP MED -->
+        <div class="slide" data-slide="6">
+            <div class="slide-content">
+                <h2>BGP MED (Multi-Exit Discriminator)</h2>
+                <div class="content-grid">
+                    <div class="content-left">
+                        <div class="info-box">
+                            <h3>Key Features</h3>
+                            <ul class="feature-list">
+                                <li>🔀 <strong>Optional Non-Transitive</strong></li>
+                                <li>📤 <strong>Sent to eBGP peers only</strong></li>
+                                <li>💡 <strong>Suggests entry point</strong> to AS</li>
+                                <li>📊 <strong>Range:</strong> 0-4,294,967,295</li>
+                                <li>⬇️ <strong>Lower = More preferred</strong></li>
+                                <li>🎯 <strong>Default:</strong> 0 or IGP metric</li>
+                                <li>🚫 <strong>NOT propagated</strong> beyond neighbor AS</li>
+                            </ul>
+                        </div>
+                        <div class="info-box highlight">
+                            <h3>Use Case</h3>
+                            <p><strong>Influence inbound traffic</strong></p>
+                            <p>Suggest to neighboring AS which entry point to use</p>
+                        </div>
+                    </div>
+                    <div class="content-right">
+                        <div class="network-diagram">
+                            <h3>Network Topology</h3>
+                            <img src="https://pplx-res.cloudinary.com/image/upload/v1761484638/pplx_project_search_images/dd45eefe98fab3f0a0f5c276c1503868015d4260.png" alt="BGP MED Topology" class="topology-image">
+                            <div class="diagram-note">
+                                <p><strong>Scenario:</strong> AS 100 advertises routes to AS 200 with different MED values</p>
+                                <p><strong>Result:</strong> AS 200 prefers the entry point with lower MED value</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 7: BGP AS-PATH -->
+        <div class="slide" data-slide="7">
+            <div class="slide-content">
+                <h2>BGP AS-PATH Attribute &amp; Prepending</h2>
+                <div class="content-grid">
+                    <div class="content-left">
+                        <div class="info-box">
+                            <h3>AS-PATH Features</h3>
+                            <ul class="feature-list">
+                                <li>✅ <strong>Well-Known Mandatory</strong></li>
+                                <li>📝 <strong>Lists all ASes traversed</strong></li>
+                                <li>🔒 <strong>Loop prevention</strong> mechanism</li>
+                                <li>📏 <strong>Shorter path = Preferred</strong></li>
+                            </ul>
+                        </div>
+                        <div class="info-box highlight">
+                            <h3>AS-PATH Prepending</h3>
+                            <ul class="feature-list">
+                                <li>🔧 Artificially lengthens path</li>
+                                <li>📉 Makes route less attractive</li>
+                                <li>🎯 Influences inbound traffic</li>
+                            </ul>
+                            <div class="code-example">
+                                <p><strong>Example:</strong></p>
+                                <p>Normal: AS_PATH = "100"</p>
+                                <p>Prepended: AS_PATH = "100 100 100"</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="content-right">
+                        <div class="network-diagram">
+                            <h3>AS-PATH Prepending Topology</h3>
+                            <img src="https://pplx-res.cloudinary.com/image/upload/v1761484638/pplx_project_search_images/6fbb7bce41f8343109b44e4a741e572e86fd9bbd.png" alt="AS-PATH Prepending" class="topology-image">
+                            <div class="diagram-note">
+                                <p><strong>Result:</strong> Remote AS prefers shorter AS-PATH (Link-A)</p>
+                                <p>Prepending on Link-B makes it less attractive</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 8: Prefix-List -->
+        <div class="slide" data-slide="8">
+            <div class="slide-content">
+                <h2>BGP Filtering: Prefix-List</h2>
+                <div class="content-single">
+                    <div class="info-box">
+                        <h3>Key Features</h3>
+                        <ul class="feature-list">
+                            <li>🔍 Filter routes by prefix and length</li>
+                            <li>✅❌ Permit or deny specific networks</li>
+                            <li>⬇️ Sequential processing (top-down)</li>
+                            <li>🚫 Implicit deny at end</li>
+                            <li>📏 Supports "le" (less than or equal) and "ge" (greater than or equal) for prefix length ranges</li>
+                        </ul>
+                    </div>
+                    <div class="code-block">
+                        <h3>Configuration Example</h3>
+                        <pre><code>! Define prefix-list to filter routes
+ip prefix-list FILTER seq 10 permit 10.0.0.0/8 le 24
+ip prefix-list FILTER seq 20 deny 192.168.0.0/16
+ip prefix-list FILTER seq 30 permit 0.0.0.0/0 le 32
+
+! Apply to BGP neighbor
+router bgp 65000
+ neighbor 1.1.1.1 prefix-list FILTER in</code></pre>
+                    </div>
+                    <div class="info-box highlight">
+                        <h3>Explanation</h3>
+                        <p><strong>Line 10:</strong> Permit 10.0.0.0/8 and all subnets up to /24</p>
+                        <p><strong>Line 20:</strong> Deny all 192.168.0.0/16 networks</p>
+                        <p><strong>Line 30:</strong> Permit all other routes (0.0.0.0/0 le 32 = any prefix)</p>
+                        <p><strong>Application:</strong> Applied to inbound routes from neighbor 1.1.1.1</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 9: Route-Map -->
+        <div class="slide" data-slide="9">
+            <div class="slide-content">
+                <h2>BGP Route-Map</h2>
+                <div class="content-single">
+                    <div class="info-box">
+                        <h3>Key Features</h3>
+                        <ul class="feature-list">
+                            <li>🛠️ Powerful policy tool</li>
+                            <li>🔍 Match multiple conditions (prefix, AS-PATH, community)</li>
+                            <li>⚙️ Set BGP attributes (LP, MED, AS-PATH, community)</li>
+                            <li>🔗 Combine with prefix-list, AS-PATH ACLs</li>
+                            <li>⬇️ Sequential processing with permit/deny actions</li>
+                        </ul>
+                    </div>
+                    <div class="code-block">
+                        <h3>Configuration Example</h3>
+                        <pre><code>! Define route-map with multiple conditions
+route-map SET-POLICY permit 10
+ match ip address prefix-list FILTER
+ match as-path 100
+ set local-preference 200
+ set community 65000:100
+
+route-map SET-POLICY permit 20
+ set local-preference 150
+
+! Apply to BGP neighbor
+router bgp 65000
+ neighbor 2.2.2.2 route-map SET-POLICY in</code></pre>
+                    </div>
+                    <div class="info-box highlight">
+                        <h3>Use Cases</h3>
+                        <div class="use-case-grid">
+                            <div>🎯 <strong>Traffic Engineering</strong></div>
+                            <div>🔒 <strong>Security Policies</strong></div>
+                            <div>🔍 <strong>Route Filtering</strong></div>
+                            <div>⚡ <strong>Path Manipulation</strong></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 10: BGP Path Selection -->
+        <div class="slide" data-slide="10">
+            <div class="slide-content">
+                <h2>BGP Best Path Selection Algorithm</h2>
+                <div class="content-single">
+                    <div class="info-box">
+                        <h3>Evaluation Order (First Match Wins)</h3>
+                        <div class="path-selection-list">
+                            <div class="selection-item step1">
+                                <span class="step-num">1</span>
+                                <div class="step-content">
+                                    <strong>Weight</strong>
+                                    <p>Highest weight (Cisco only, local to router)</p>
+                                </div>
+                            </div>
+                            <div class="selection-item step2">
+                                <span class="step-num">2</span>
+                                <div class="step-content">
+                                    <strong>Local Preference</strong>
+                                    <p>Highest local preference (within AS)</p>
+                                </div>
+                            </div>
+                            <div class="selection-item step3">
+                                <span class="step-num">3</span>
+                                <div class="step-content">
+                                    <strong>Locally Originated</strong>
+                                    <p>Prefer locally originated routes (network, aggregate, redistribute)</p>
+                                </div>
+                            </div>
+                            <div class="selection-item step4">
+                                <span class="step-num">4</span>
+                                <div class="step-content">
+                                    <strong>AS-PATH Length</strong>
+                                    <p>Shortest AS-PATH length</p>
+                                </div>
+                            </div>
+                            <div class="selection-item step5">
+                                <span class="step-num">5</span>
+                                <div class="step-content">
+                                    <strong>ORIGIN Type</strong>
+                                    <p>IGP &gt; EGP &gt; Incomplete</p>
+                                </div>
+                            </div>
+                            <div class="selection-item step6">
+                                <span class="step-num">6</span>
+                                <div class="step-content">
+                                    <strong>MED (Multi-Exit Discriminator)</strong>
+                                    <p>Lowest MED (compared only for routes from same neighboring AS)</p>
+                                </div>
+                            </div>
+                            <div class="selection-item step7">
+                                <span class="step-num">7</span>
+                                <div class="step-content">
+                                    <strong>eBGP over iBGP</strong>
+                                    <p>Prefer external BGP paths over internal BGP paths</p>
+                                </div>
+                            </div>
+                            <div class="selection-item step8">
+                                <span class="step-num">8</span>
+                                <div class="step-content">
+                                    <strong>IGP Metric to Next-Hop</strong>
+                                    <p>Lowest IGP cost to reach BGP next-hop</p>
+                                </div>
+                            </div>
+                            <div class="selection-item step9">
+                                <span class="step-num">9</span>
+                                <div class="step-content">
+                                    <strong>BGP Router ID</strong>
+                                    <p>Lowest BGP router ID (tie-breaker)</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="info-box highlight note-box">
+                        <p><strong>⚠️ Important:</strong> BGP evaluates these criteria in order. Once a tie is broken, no further evaluation occurs.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 11: Summary -->
+        <div class="slide" data-slide="11">
+            <div class="slide-content">
+                <h2>Summary &amp; Best Practices</h2>
+                <div class="content-grid">
+                    <div class="content-left">
+                        <div class="info-box">
+                            <h3>Key Takeaways</h3>
+                            <ul class="summary-list">
+                                <li><strong>Community:</strong> Tag routes for policy (Optional Transitive)</li>
+                                <li><strong>Weight:</strong> Local preference, Cisco-only (0-65535, higher wins)</li>
+                                <li><strong>Local Preference:</strong> AS-wide outbound (0-4B, higher wins)</li>
+                                <li><strong>MED:</strong> Inbound traffic suggestion (0-4B, lower wins)</li>
+                                <li><strong>AS-PATH:</strong> Loop prevention (shorter preferred)</li>
+                                <li><strong>Prefix-List:</strong> Network filtering by prefix/length</li>
+                                <li><strong>Route-Map:</strong> Complex policy engine for matching and setting attributes</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="content-right">
+                        <div class="info-box highlight">
+                            <h3>Best Practices</h3>
+                            <ul class="best-practices">
+                                <li>✓ Use <strong>Local Preference</strong> for outbound traffic within AS</li>
+                                <li>✓ Use <strong>MED</strong> cautiously - neighbor's decision only</li>
+                                <li>✓ <strong>Document</strong> all BGP policies and communities</li>
+                                <li>✓ <strong>Test in lab</strong> before production deployment</li>
+                                <li>✓ Remember <strong>implicit deny</strong> in ACLs/prefix-lists</li>
+                                <li>✓ Understand <strong>path selection order</strong> thoroughly</li>
+                                <li>✓ Use <strong>communities</strong> for scalable policy management</li>
+                                <li>✓ Monitor BGP tables and routing changes regularly</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="end-banner">
+                    <h3>Thank You!</h3>
+                    <p>Questions &amp; Discussion</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation Controls -->
+    <div class="controls">
+        <button id="prevBtn" class="nav-btn">← Previous</button>
+        <div class="slide-counter">
+            <span id="currentSlide">1</span> / <span id="totalSlides">11</span>
+        </div>
+        <button id="nextBtn" class="nav-btn">Next →</button>
+    </div>
+
+    <!-- Progress Bar -->
+    <div class="progress-bar">
+        <div id="progressFill" class="progress-fill"></div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
