@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="BGP Communities and Attributes - Network Routing Explained" />
+  <title>BGP Communities and Attributes: Deep Dive</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1>BGP Communities and Attributes</h1>
+      <p class="subtitle">Understanding Border Gateway Protocol through modern routing strategy</p>
+      <p class="meta">By Network Learning Desk | Updated: October 2025</p>
+    </div>
+  </header>
+
+  <main class="container">
+    <article>
+      <section id="intro">
+        <h2>Introduction</h2>
+        <p>
+          The Border Gateway Protocol (BGP) is the Internet’s postal service — deciding how packets travel across thousands of autonomous systems. 
+          To make informed decisions, BGP uses a system of attributes, communities, and rules that define traffic direction, priority, and scope.
+        </p>
+      </section>
+
+      <section id="communities">
+        <h2>BGP Communities: The Policy Tags of the Internet</h2>
+        <p>
+          Each BGP route can be tagged with a community, which allows routers to group and act on traffic in coordinated ways.
+          They simplify network policies by letting administrators apply one rule to many routes at once.
+        </p>
+
+        <h3>Types of BGP Communities</h3>
+        <ul>
+          <li><strong>Standard:</strong> 32-bit format (AS:Value)</li>
+          <li><strong>Extended:</strong> 64-bit format for VPN/MPLS use</li>
+          <li><strong>Large:</strong> 96-bit format supporting 4-byte ASNs</li>
+        </ul>
+
+        <h3>Well-known Communities</h3>
+        <p>These are predefined common tags recognized by most routers:</p>
+        <ul>
+          <li><code>NO_EXPORT</code> — prevent advertisement outside local AS</li>
+          <li><code>NO_ADVERTISE</code> — do not advertise this route to anyone</li>
+          <li><code>INTERNET</code> — freely advertise globally</li>
+        </ul>
+      </section>
+
+      <section id="attributes">
+        <h2>BGP Attributes and Routing Behavior</h2>
+        <p>BGP uses attributes to compare multiple routes and select the best one.</p>
+
+        <h3>1. Weight (Cisco Proprietary)</h3>
+        <p>
+          Local-only attribute used to influence outbound traffic on a specific router. 
+          The higher the Weight, the more preferred the route.
+        </p>
+
+        <h3>2. Local Preference</h3>
+        <p>
+          Indicates preference for outbound traffic across the entire AS. 
+          Higher values are preferred, commonly set via route-maps.
+        </p>
+
+        <h3>3. Multi-Exit Discriminator (MED)</h3>
+        <p>
+          Suggests inbound routing preference to neighboring AS. Lower MED is more preferred but only compared within one neighbor’s AS.
+        </p>
+
+        <h3>4. AS-PATH</h3>
+        <p>
+          Lists the sequence of AS numbers that a route has traversed. Shorter AS-PATHs are preferred.
+          AS-PATH prepending can intentionally lengthen paths to control inbound traffic.
+        </p>
+
+        <h3>5. Prefix-List and Route-Map</h3>
+        <p>
+          <strong>Prefix-Lists</strong> are used for route filtering by network prefix.
+          <strong>Route-Maps</strong> act like “if-then rules” to apply multiple match or set conditions, often used for policy control.
+        </p>
+      </section>
+
+      <section id="bestpath">
+        <h2>BGP Path Selection Process</h2>
+        <ol>
+          <li>Highest Weight (Cisco only)</li>
+          <li>Highest Local Preference</li>
+          <li>Locally originated routes</li>
+          <li>Shortest AS-PATH</li>
+          <li>Origin type (IGP > EGP > Incomplete)</li>
+          <li>Lowest MED</li>
+          <li>eBGP over iBGP paths</li>
+          <li>Lowest IGP cost to next hop</li>
+          <li>Oldest path or lowest router ID (tiebreakers)</li>
+        </ol>
+      </section>
+
+      <section id="summary">
+        <h2>Takeaways & Best Practices</h2>
+        <ul>
+          <li>Use Local Preference for AS-wide outbound control.</li>
+          <li>Use MED cautiously for inbound suggestions only.</li>
+          <li>Tag routes with meaningful communities.</li>
+          <li>Combine Route-Maps with Prefix-Lists for precision policy.</li>
+          <li>Test BGP attribute changes in a lab before production.</li>
+        </ul>
+      </section>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>© 2025 Network Learning Desk — Educational BGP Insights</p>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
